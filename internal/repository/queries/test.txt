@@ -1,0 +1,11 @@
+-- name: GetSongsByField :many
+SELECT *
+FROM song
+WHERE 
+        (CASE WHEN @by_song::boolean THEN song = @song ELSE TRUE END)
+    AND (CASE WHEN @by_author::boolean THEN author = @author ELSE TRUE END)
+    AND (CASE WHEN @by_release_date::boolean THEN release_date = @release_date ELSE TRUE END)
+    AND (CASE WHEN @by_text::boolean THEN text = @text ELSE TRUE END)
+    AND (CASE WHEN @by_link::boolean THEN link = @link ELSE TRUE END)
+LIMIT $1
+OFFSET $2;

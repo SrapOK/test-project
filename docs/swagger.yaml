@@ -1,0 +1,259 @@
+basePath: /api/v1
+definitions:
+  dto.GetSongsResponseDto:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/dto.SongDto'
+        type: array
+      page:
+        type: integer
+      pageSize:
+        type: integer
+    type: object
+  dto.SongDto:
+    properties:
+      group:
+        type: string
+      link:
+        type: string
+      releaseDate:
+        type: string
+      song:
+        type: string
+      songId:
+        type: string
+      text:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a test project
+  termsOfService: http://swagger.io/terms/
+  title: Test Project
+  version: "1.0"
+paths:
+  /songs:
+    get:
+      consumes:
+      - application/json
+      description: Get songs
+      parameters:
+      - description: Page
+        example: 1
+        in: query
+        name: page
+        type: integer
+      - description: Page Size
+        example: 10
+        in: query
+        name: pageSize
+        type: integer
+      - description: Filter for Song
+        example: The Weeping
+        in: query
+        name: song
+        type: string
+      - description: Filter for Group
+        example: DIM
+        in: query
+        name: group
+        type: string
+      - description: Filter for Text
+        example: lorem ipsum...
+        in: query
+        name: text
+        type: string
+      - description: Filter for Link
+        example: https://www.youtube.com/watch?v=_UCo04xk2Ik
+        in: query
+        name: link
+        type: string
+      - description: Filter for Release Date
+        example: "2025-01-03"
+        in: query
+        name: releaseDate
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.GetSongsResponseDto'
+            type: array
+        "400":
+          description: некорректные параметры
+          schema:
+            type: string
+        "500":
+          description: не удалось получить песни
+          schema:
+            type: string
+      summary: Get songs
+      tags:
+      - songs
+    post:
+      consumes:
+      - application/json
+      description: Post song
+      parameters:
+      - description: Song Title
+        example: The Weeping
+        in: body
+        name: song
+        required: true
+        schema:
+          type: string
+      - description: Group
+        example: DIM
+        in: body
+        name: group
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SongDto'
+        "400":
+          description: некорректные параметры
+          schema:
+            type: string
+        "500":
+          description: не удалось создать песню
+          schema:
+            type: string
+      summary: Post song
+      tags:
+      - songs
+    put:
+      consumes:
+      - application/json
+      description: Put song
+      parameters:
+      - description: Song Title
+        example: The Weeping
+        in: body
+        name: song
+        required: true
+        schema:
+          type: string
+      - description: Group
+        example: DIM
+        in: body
+        name: group
+        required: true
+        schema:
+          type: string
+      - description: Release Date
+        example: "2024-04-17"
+        in: body
+        name: releaseDate
+        required: true
+        schema:
+          type: string
+      - description: Text
+        example: lorem ipsum...
+        in: body
+        name: text
+        required: true
+        schema:
+          type: string
+      - description: Link
+        example: https://www.youtube.com/watch?v=_UCo04xk2Ik
+        in: body
+        name: link
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SongDto'
+        "400":
+          description: некорректные параметры
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Put song
+      tags:
+      - songs
+  /songs/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete song
+      parameters:
+      - description: Song UUID
+        example: 048fec20-b500-4d44-8698-db46f7d86ae8
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: песня удалена
+          schema:
+            type: string
+        "400":
+          description: не удалось декодировать uuid
+          schema:
+            type: string
+        "500":
+          description: не удалось удалить песню
+          schema:
+            type: string
+      summary: Delete song
+      tags:
+      - songs
+  /songs/{id}/{row}:
+    get:
+      consumes:
+      - application/json
+      description: Get song's row
+      parameters:
+      - description: Song UUID
+        example: 048fec20-b500-4d44-8698-db46f7d86ae8
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Song's row
+        example: "1"
+        in: path
+        name: row
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: куплет
+          schema:
+            type: string
+        "400":
+          description: не удалось декодировать uuid
+          schema:
+            type: string
+        "500":
+          description: не удалось получить куплет
+          schema:
+            type: string
+      summary: Get song's row
+      tags:
+      - songs
+swagger: "2.0"
